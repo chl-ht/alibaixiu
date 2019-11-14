@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="utf-8">
   <title>Sign in &laquo; Admin</title>
   <link rel="stylesheet" href="../assets/vendors/bootstrap/css/bootstrap.css">
   <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
+
 <body>
   <div class="login">
     <div class="login-wrap">
@@ -16,14 +18,46 @@
       </div> -->
       <div class="form-group">
         <label for="email" class="sr-only">邮箱</label>
-        <input id="email" type="email" class="form-control" placeholder="邮箱" autofocus>
+        <input id="email" type="email" class="form-control" placeholder="邮箱" autofocus value="itheima@itcast.cn">
       </div>
       <div class="form-group">
         <label for="password" class="sr-only">密码</label>
-        <input id="password" type="password" class="form-control" placeholder="密码">
+        <input id="password" type="password" class="form-control" placeholder="密码" value="123456">
       </div>
-      <button class="btn btn-primary btn-block">登 录</button>
+      <button class="btn btn-primary btn-block" id="loginBtn">登 录</button>
     </div>
   </div>
+  <script src="../assets/vendors/jquery/jquery.min.js"></script>
+  <script>
+    $('#loginBtn').on('click', function () {
+      let email = $('#email').val()
+      let password = $('#password').val()
+      if (email.trim().length === 0) {
+        alert('请输入邮箱')
+        return
+      }
+      if (password.trim().length === 0) {
+        alert('请输入密码')
+        return
+      }
+      $.ajax({
+        type: "post",
+        url: "/login",
+        data: {
+          email,
+          password
+        },
+        success: function (response) {
+          location.href = 'index.html'
+          location.assign = 'index.html'  //和上面的等价，会产生历史记录(可以后退)
+          location.replace = 'index.html'  //不会产生历史记录(不可以后退)
+        },
+        error: function () {
+          alert('登陆失败')
+        }
+      });
+    })
+  </script>
 </body>
+
 </html>
