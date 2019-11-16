@@ -63,3 +63,55 @@ $('.modifyBox').on('submit', '#modifyForm', function () {
   });
   return false
 })
+$('#userList').on('click', '.delete', function () {
+  let id = $(this).attr('data-id')
+  if (confirm('确定要删除吗')) {
+    $.ajax({
+      type: "delete",
+      url: `/users/${id}`,
+      success: function (response) {
+        location.reload()
+      }
+    });
+  }
+})
+let checkedAll = $('#checkedAll')
+let deleteMany = $('#deleteMany')
+checkedAll.on('change', function () {
+  let status = $(this).prop('checked')
+  $('#userList').find('input').prop('checked', status)
+  if (status) {
+    deleteMany.show()
+  } else {
+    deleteMany.hide()
+  }
+})
+$('#userList').on('change', '#userStatus', function () {
+  let inputs = $('#userList').find('input')
+  if (inputs.length == inputs.filter(":checked").length) {
+    checkedAll.prop('checked', true)
+  } else {
+    checkedAll.prop('checked', false)
+  }
+  if (inputs.filter(":checked").length > 0) {
+    deleteMany.show()
+  } else {
+    deleteMany.hide()
+  }
+})
+deleteMany.on('click', function () {
+  let ids = []
+  let checkedUser = $('#userList').find('input').filter(":checked")
+  checkedUser.each(function (index, ele) {
+    ids.push($(ele).attr('data-id'))
+  })
+  if (confirm('你确定要删除吗')) {
+    $.ajax({
+      type: "delete",
+      url: '/users/' + ids.join('-'),
+      success: function (response) {
+        location.reload()
+      }
+    });
+  }
+})
