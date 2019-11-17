@@ -48,9 +48,10 @@
           password
         },
         success: function (response) {
+          localStorage.setItem('user', JSON.stringify(response))
           location.href = 'index.html'
-          location.assign('index.html')  //和上面的等价，会产生历史记录(可以后退)
-          location.replace = 'index.html'  //不会产生历史记录(不可以后退)
+          // location.assign('index.html')  //和上面的等价，会产生历史记录(可以后退)
+          // location.replace = 'index.html'  //不会产生历史记录(不可以后退)
         },
         error: function () {
           alert('登陆失败')

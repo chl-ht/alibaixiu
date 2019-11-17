@@ -33,3 +33,46 @@ $('#addForm').on('submit', function () {
   });
   return false
 })
+function getUrlParams(name) {  //查询获取到的参数，通过split方法将字符串转化为数组
+  let arr = location.search.substr(1).split('&')
+  for (let index = 0; index < arr.length; index++) {
+    let tmp = arr[index].split('=')
+    if (name == tmp[0]) {
+      return tmp[1]
+    }
+  }
+  return false
+}
+let id = getUrlParams('id')
+if (id != false) {
+  $.ajax({
+    type: "get",
+    url: `/posts/${id}`,
+    success: function (response) {
+      $.ajax({
+        type: "get",
+        url: "/categories",
+        success: function (categories) {
+          response.categories = categories
+          // console.log(categories)
+          // console.log(response)
+          let html = template('modifytpl', response)
+          $('#parentBox').html(html)
+        }
+      });
+    }
+  });
+}
+$('#parentBox').on('submit', '#modifyForm', function () {
+  let id = $(this).attr('data-id')
+  let modifyData = $(this).serialize()
+  $.ajax({
+    type: "put",
+    url: `/posts/${id}`,
+    data: modifyData,
+    success: function (response) {
+      location.href = '/admin/posts.html'
+    }
+  });
+  return false
+})
