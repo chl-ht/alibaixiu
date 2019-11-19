@@ -662,7 +662,9 @@ img {
   width:100%;
   overflow: hidden;
 }
-
+.content .swipe-wrapper li img {
+  height: 520px;
+}
 .content .swipe-wrapper li span {
   position: absolute;
   bottom: 0;
@@ -1227,7 +1229,9 @@ img {
   overflow: hidden;
   float: left;
 }
-
+.aside .discuz .avatar img {
+  height: 100%;
+}
 .aside .discuz .txt {
   height: 40px;
   line-height: 20px;
